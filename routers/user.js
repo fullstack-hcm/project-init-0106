@@ -52,7 +52,7 @@ router.post('/login', async (req, res) => {
          */
         req.session.email = isExist.email;
 
-        res.redirect('/user/info');
+        res.redirect('/post');
     } catch (error) {
         return res.json({ error: true, message: error.message });
     }
@@ -161,6 +161,29 @@ router.get('/confirm-friend/:userBeConfirmedID', async (req, res) => {
         }, { new: true });
 
         if (!infoMainUserAfterUpdate || !infoUserConfirmedAfterUpdate )
+            return res.json({ error: true, message: 'CANNOT_UPDATE' });
+        res.redirect('/user/info')
+    } catch (error) {
+        res.json({ error: true, message: error.message });
+    }
+});
+
+router.get('/remove-friend/:userReceiverID', async (req, res) => {
+    try {
+        const { email } = req.session; // USER CHỦ
+        const { userReceiverID } = req.params; // USER BỊ THAO TÁC
+
+        if (!ObjectId.isValid(userReceiverID))
+            res.json({ error: true, message: 'PARAM_INVALID' });
+        
+        let infoUserMainAfterUpdate = await USER_MODEL.findOneAndUpdate({ email }, {
+            $pull: { friends: userReceiverID }
+        }, { new: true });
+
+        let infoUserReceiveAfterUpdate = await USER_MODEL.findByIdAndUpdate(userReceiverID, {
+            $pull: { friends: infoUserMainAfterUpdate._id }
+        }, { new: true });
+        if (!infoUserMainAfterUpdate || !infoUserReceiveAfterUpdate )
             return res.json({ error: true, message: 'CANNOT_UPDATE' });
         res.redirect('/user/info')
     } catch (error) {

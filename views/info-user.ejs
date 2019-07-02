@@ -31,7 +31,6 @@
                     <%if(listUser.length > 0){%>
                         <ul class="list-group list-group-flush">
                             <%listUser.forEach(userGuest => {%>
-
                                 <%var arrObjIDFriends = infoUser.friends.map(item => item._id.toString())%>
                                     <%if(!arrObjIDFriends.includes(userGuest._id.toString())){%>
                                     <li class="list-group-item">
@@ -88,7 +87,12 @@
                     <%if(infoUser.friends.length > 0){%>
                         <ul class="list-group list-group-flush">
                             <%infoUser.friends.forEach(userGuest => {%>
-                                <li class="list-group-item"><%= userGuest.email%> | <%=userGuest.fullname%></li>
+                                <li class="list-group-item">
+                                    <%= userGuest.email%> | <%=userGuest.fullname%>
+                                    <a href="/user/remove-friend/<%=userGuest._id%>">
+                                        <button type="button" class="btn btn-warning">Huỷ Kết Bạn</button>
+                                    </a>
+                                </li>
                             <%})%>
                         </ul>
                     <%}else {%>

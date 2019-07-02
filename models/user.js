@@ -13,10 +13,10 @@ const USER_SCHEMA = new Schema({
     * USER ĐÃ KẾT BẠN
     */
     friends: [
-            {
-                type: Schema.Types.ObjectId,
-                ref : 'user'
-            }
+        {
+            type: Schema.Types.ObjectId,
+            ref : 'user'
+        }
     ],
    /**
     * USER Đã gửi lời mời kết bạn cho mình

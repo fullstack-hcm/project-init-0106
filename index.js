@@ -30,6 +30,11 @@ app.use(expressSession({
  * user router-level middleware
  */
 
+
+app.get('/', (req, res) => {
+    res.redirect('/user/login');
+});
+
 app.use('/user', ROUTER_USER);
 
 mongoose.connect(URI_MONGOOSE);

@@ -22,7 +22,7 @@
     </div>
     <br><br>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
                     Bạn Có Thể Quen
@@ -31,21 +31,22 @@
                     <%if(listUser.length > 0){%>
                         <ul class="list-group list-group-flush">
                             <%listUser.forEach(userGuest => {%>
-                                <li class="list-group-item">
-                                    <%= userGuest.email%> | <%=userGuest.fullname%>
 
-                                    <%if(infoUser.friendsRequest.includes(userGuest._id.toString())){%>
-                                        <a href="/user/add-friend/<%=userGuest._id%>">
-                                            <button type="button" class="btn btn-danger">Hoàn Tác</button>
-                                        </a>
-                                    <%}else {%>
-                                        <a href="/user/add-friend/<%=userGuest._id%>">
-                                            <button type="button" class="btn btn-primary">Kết Bạn</button>
-                                        </a>
-                                    <%}%>
-
-                                    
-                                </li>
+                                <%var arrObjIDFriends = infoUser.friends.map(item => item._id.toString())%>
+                                    <%if(!arrObjIDFriends.includes(userGuest._id.toString())){%>
+                                    <li class="list-group-item">
+                                        <%= userGuest.email%> | <%=userGuest.fullname%>
+                                        <%if(infoUser.friendsRequest.includes(userGuest._id.toString())){%>
+                                            <a href="/user/remove-request/<%=userGuest._id%>">
+                                                <button type="button" class="btn btn-danger">Hoàn Tác</button>
+                                            </a>
+                                        <%}else {%>
+                                            <a href="/user/add-friend/<%=userGuest._id%>">
+                                                <button type="button" class="btn btn-primary">Kết Bạn</button>
+                                            </a>
+                                        <%}%>                                    
+                                    </li>
+                                <%}%>
                             <%})%>
                         </ul>
                     <%}%>
@@ -53,7 +54,32 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+
+        <div class="col-md-4">
+            <div class="card" style="width: 18rem;">
+                <div class="card-header">
+                   Danh Sách Yêu Cầu
+                </div>
+                <%if(infoUser.guestRequest){%>
+                    <%if(infoUser.guestRequest.length > 0){%>
+                        <ul class="list-group list-group-flush">
+                            <%infoUser.guestRequest.forEach(userGuest => {%>
+                                <li class="list-group-item">
+                                    <%= userGuest.email%> | <%=userGuest.fullname%>
+                                    <a href="/user/confirm-friend/<%=userGuest._id%>">
+                                        <button type="button" class="btn btn-primary">Xác Nhận</button>
+                                    </a>
+                                </li>
+                            <%})%>
+                        </ul>
+                    <%}else {%>
+                        <strong>Chưa Có Yêu Cầu (0)</strong>
+                    <%}%>
+                <%}%>
+            </div>
+        </div>
+
+        <div class="col-md-4">
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
                     Danh Sách Bạn
@@ -71,6 +97,7 @@
                 <%}%>
             </div>
         </div>
+
         
     </div>
 </div>

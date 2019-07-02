@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <br><br><br>
+<div class="container">
+  <div class="row">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title"><%=infoUser.email%></h5>
+                <h6 class="card-subtitle mb-2 text-muted"><%=infoUser.fullname%></h6>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card" style="width: 18rem;">
+                <div class="card-header">
+                    Bạn Có Thể Quen
+                </div>
+                <%if(listUser){%>
+                    <%if(listUser.length > 0){%>
+                        <ul class="list-group list-group-flush">
+                            <%listUser.forEach(userGuest => {%>
+                                <li class="list-group-item">
+                                    <%= userGuest.email%> | <%=userGuest.fullname%>
+
+                                    <%if(infoUser.friendsRequest.includes(userGuest._id.toString())){%>
+                                        <a href="/user/add-friend/<%=userGuest._id%>">
+                                            <button type="button" class="btn btn-danger">Hoàn Tác</button>
+                                        </a>
+                                    <%}else {%>
+                                        <a href="/user/add-friend/<%=userGuest._id%>">
+                                            <button type="button" class="btn btn-primary">Kết Bạn</button>
+                                        </a>
+                                    <%}%>
+
+                                    
+                                </li>
+                            <%})%>
+                        </ul>
+                    <%}%>
+                <%}%>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card" style="width: 18rem;">
+                <div class="card-header">
+                    Danh Sách Bạn
+                </div>
+                <%if(infoUser.friends){%>
+                    <%if(infoUser.friends.length > 0){%>
+                        <ul class="list-group list-group-flush">
+                            <%infoUser.friends.forEach(userGuest => {%>
+                                <li class="list-group-item"><%= userGuest.email%> | <%=userGuest.fullname%></li>
+                            <%})%>
+                        </ul>
+                    <%}else {%>
+                        <strong>Chưa Có Bạn Bè (0)</strong>
+                    <%}%>
+                <%}%>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+</body>
+</html>
